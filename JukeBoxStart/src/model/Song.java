@@ -1,5 +1,5 @@
 package model;
-
+import java.time.LocalDate;
 import java.util.*;
 
 public class Song {
@@ -9,7 +9,9 @@ public class Song {
 	private String File;
 	private int playtimes;
 	
-	
+	private LocalDate today;
+	private LocalDate tomorrow;
+	private LocalDate time;
 	
 	public Song(String str, String singner, int length, String file) {
 		playtimes=0;
@@ -17,10 +19,21 @@ public class Song {
 		Artist = singner;
 		Length = length;
 		File = file;
+		setdates();
 		
 	}
 	
 	
+	
+	private void setdates() {
+		today=LocalDate.now();
+		time=today;
+		tomorrow=today;
+		tomorrow.plusDays(1);	
+	}
+
+
+
 	public String getTitle(){
 		
 		return name;
@@ -30,9 +43,12 @@ public class Song {
 		return Artist;
 	}
 	
-	//The play times increase 1 when this is played
+	
 	public void recordPlayed() {
 		playtimes+=1;
+		if(playtimes==3){
+			time.plusDays(1);
+		}
 	}
 	
 	public int getSongLength(){
@@ -49,10 +65,15 @@ public class Song {
 	
 	public boolean validplay(){
 
-		return (playtimes<=3);
+		return (time.equals(today));
 	}
 	
 	public void reset(){
 		playtimes=0;
+		time=today;
+	}
+	
+	public static void main(String[] args) {
+
 	}
 }
