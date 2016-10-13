@@ -12,8 +12,8 @@ public class StudentDatabase {
 
 	}
 
-	public void addStudent(String key, Student student) {
-		List.put(key, student);
+	public void addStudent(Student student) {
+		List.put(student.getUsername()+"breaker"+student.getPassword(), student);
 	}
 
 	public Student getStudent(String key) {
@@ -21,9 +21,10 @@ public class StudentDatabase {
 	}
 
 	public boolean studentExists(String username, String passwd) {
-		String key = username+passwd;
-		if (List.containsKey(key))
+		String key = username+"breaker"+passwd;
+		if (List.containsKey(key)){
 			return true;
+		}
 		return false;
 	}
 
