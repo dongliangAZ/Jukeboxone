@@ -12,8 +12,13 @@ import javax.swing.*;
 
 public class GUI extends JFrame{
 	private JPanel JP;
+	private JPanel jp;
+	
 	private JButton songOne;
 	private JButton songTwo;
+	private JButton out;
+	private JButton in;
+	
 	private JTextField userID;
 	private JTextField passwd;
 	private JLabel songStatus;
@@ -21,9 +26,13 @@ public class GUI extends JFrame{
 	private JLabel p;
 	public GUI(){
 		JP=new JPanel(new GridBagLayout());
+		jp=new JPanel(new GridBagLayout());
 		
 		songOne = new JButton("Select song 1");
 		songTwo = new JButton("Select song 2");
+		out = new JButton("Sign out");
+		in = new JButton("Login");
+
 		
 		songOne.setSize(150, 30);
 		songOne.setFont(new Font(null, Font.BOLD, 15));
@@ -36,12 +45,14 @@ public class GUI extends JFrame{
 		this.add(songTwo);
 				
 		
-		JP.setSize(360, 200);
+		JP.setSize(360, 100);
 		JP.setBackground(Color.WHITE);
 		JP.setLocation(70, 150);
 		this.add(JP,BorderLayout.CENTER);
-		
-		
+		jp.setSize(360, 100);
+		jp.setBackground(Color.WHITE);
+		jp.setLocation(70, 250);
+		this.add(jp,BorderLayout.SOUTH);
 		
 		GridBagConstraints G = new GridBagConstraints();
 		G.insets = new Insets(5, 5, 5, 5);
@@ -50,30 +61,45 @@ public class GUI extends JFrame{
 		u=new JLabel("Account Name");
 		userID.setBackground(Color.white);
 		//u.setFont(new Font("Serif", Font.PLAIN, 15));
-		userID.setSize(100, 30); // width, height
-		G.gridx = 150;
-		G.gridy = 100;
+		userID.setSize(50, 15); // width, height
+		G.gridx = 75;
+		G.gridy = 50;
 		//userID.setLocation(150, 100);
 		JP.add(userID,G);
-		G.gridx = 100;
-		G.gridy = 100;
+		G.gridx = 50;
+		G.gridy = 50;
 		JP.add(u,G);
 		
 		passwd = new JTextField("",10);
 		p=new JLabel("Password");
 		passwd.setBackground(Color.white);
 		//passwd.setFont(new Font("Serif", Font.PLAIN, 15));
-		passwd.setSize(100, 30); // width, height
-		G.gridx = 150;
-		G.gridy = 150;
+		passwd.setSize(50, 15); // width, height
+		G.gridx = 75;
+		G.gridy = 75;
 		//passwd.setLocation(250, 250);
 		JP.add(passwd,G);
-		G.gridx = 100;
-		G.gridy = 150;
+		G.gridx = 50;
+		G.gridy = 75;
 		JP.add(p,G);
 		
-		p=new JLabel("Status: 0 played, 25:00:00");
-		JP.add(p);
+		
+		
+		out.setSize(180, 30);
+		out.setFont(new Font(null, Font.BOLD, 15));
+		G.gridx =0;
+		G.gridy =0;		
+		jp.add(out,G);
+		in.setSize(180, 30);
+		in.setFont(new Font(null, Font.BOLD, 15));
+		G.gridx =180;
+		G.gridy =0;
+		jp.add(in,G);
+		
+		songStatus=new JLabel("Status: 0 played, 25:00:00");
+		G.gridx=150;
+		G.gridy=40;
+		jp.add(songStatus,G);
 		
 		
 		

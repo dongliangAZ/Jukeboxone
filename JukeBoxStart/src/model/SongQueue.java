@@ -17,9 +17,14 @@ public class SongQueue {
 	 */
 	static Queue<Song> playlist = new LinkedList<Song>();
 	private static boolean running = false;
-
-	public void addToPlaylist(Song song) {
-		playlist.add(song);
+ 
+	public boolean addToPlaylist(Song song) {
+		if (song.validplay()) {
+			song.recordPlayed();
+			playlist.add(song);
+			return true;
+		}
+		return false;
 	}
 
 	public static void playNext() {

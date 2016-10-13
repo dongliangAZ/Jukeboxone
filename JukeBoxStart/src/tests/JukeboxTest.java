@@ -16,7 +16,12 @@ public class JukeboxTest {
 
 	@Test
 	public void fullRunJukeboxTest() {
+		/* ___________________________Set_UP_DATABASE_Start________________________________ */
 		StudentDatabase sd = new StudentDatabase();
+		int index = 0;
+		Scanner keyboard = new Scanner(System.in);
+		SongLib sl = new SongLib();
+		SongQueue sq = new SongQueue();
 		Student a = new Student("Chris", "1");
 		Student b = new Student("Devon", "22");
 		Student c = new Student("River", "333");
@@ -29,50 +34,38 @@ public class JukeboxTest {
 		sd.addStudent(d.getUsername() + d.getPassword(), d);
 		sd.addStudent(e.getUsername() + e.getPassword(), e);
 		sd.addStudent(f.getUsername() + f.getPassword(), f);
-		assertFalse(sd.studentExists("Sean", "233"));
-		assertEquals(true, sd.studentExists("Chris", "1"));
-		assertTrue(sd.studentExists("Devon", "22"));
-		assertTrue(sd.studentExists("River", "333"));
-		assertTrue(sd.studentExists("Ryan", "4444"));
-
-		assertFalse(sd.studentExists("Ryan", "444"));
-
-		int index = 0;
-		Scanner keyboard = new Scanner(System.in);
-		SongLib sl = new SongLib();
-		SongQueue sq = new SongQueue();
-		Song s1 = new Song("Kevin MacLeod", "Danse Macabre", 34,
-				"songfiles/DanseMacabreViolinHook.mp3");
-		Song s2 = new Song("FreePlay Music", "Determined Tumbao", 20,
-				"songfiles/DeterminedTumbao.mp3");
-		Song s3 = new Song("FreePlay Music", "Determined Tumbao", 20,
+		Song s1 = new Song("FreePlay Music", "Determined Tumbao", 20,
 				"songfiles/spacemusic.au");
-		Song s4 = new Song("FreePlay Music", "Determined Tumbao", 20,
+		Song s2 = new Song("FreePlay Music", "Determined Tumbao", 20,
 				"songfiles/flute.aif");
 		sl.addsong(s1);
 		sl.addsong(s2);
-		sl.addsong(s3);
-		sl.addsong(s4);
-		keyboard.nextLine();
-		String exit = "";
-		while (keyboard.hasNext() && !exit.equals("Kill")) {
-			index++;
-			if (index >= sl.Size()) {
-				index = 0;
-			}
-			Song song = sl.getSong(index);
-			System.out.println(song.getTitle());
-			sq.addToPlaylist(song);
-			// Play yet another song, quite possibly while another is playing
-			if (!sq.currentPlaying()) {
 
-				sq.playNext();
+		/* ___________________________Set_UP_DATABASE_END__________________________________ */
 
-			} else {
-				System.out.println("Setting " + song.getTitle() + " "
-						+ sq.Size());
+		while (keyboard.next().equals("quitProgram")) {
+			Student currentUser = a;
+
+			/* ______________________________Login_Attempt_Start__________________________________ */
+			/* ______________________________Login_Attempt_End____________________________________ */
+
+			/* ___________________________Playing_Songs________________________________ */
+			String exit = "";
+			while (keyboard.hasNext() && !keyboard.nextLine().equals("logout")) {
+				String userRequest = keyboard.next();
+				System.out.println("Choose 1 or 2");
+				Song song = sl.getSong(Integer.parseInt(userRequest));
+				System.out.println(song.getTitle());
+				if (sq.addToPlaylist(song)) {
+					//userCurrent
+					if (!sq.currentPlaying()) {
+						sq.playNext();
+					} else {
+						System.out.println("Adding " + userRequest
+								+ " to queue." + sq.Size() + " songs in queue");
+					}
+				}
 			}
-			exit = keyboard.nextLine();
 		}
 	}
 }

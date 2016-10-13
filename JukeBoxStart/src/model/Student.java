@@ -6,13 +6,13 @@ public class Student {
 	private String name;
 	private String password;
 	private int songplayed;
-	private int munites;
+	private int minutes;
+	private decider dc = new decider();
 
 	public Student(String str, String pwd) {
 		name = str;
 		password = pwd;
-		songplayed = 0;
-		munites=1500;
+		minutes=1500;
 	}
 
 	public String getUsername() {
@@ -23,22 +23,17 @@ public class Student {
 		return password;
 	}
 	
-	public int getmuniteLeft() {
-		return munites;
+	public int getMinutesLeft() {
+		return minutes;
 	}
 	
-	public void playasong(int i){
-		songplayed++;
-		munites-=i;
+	public void minutesAdjuster(int songLength){
+		minutes-=songLength;
 	}
 
 	
 	public int getplaytimes() {
-		return songplayed;
-	}
-	
-	public void resettoday(){
-		songplayed = 0;
+		return dc.getplaytimes();
 	}
 	
 	//Return true if the psw and user name matches
@@ -48,7 +43,7 @@ public class Student {
 		return false;
 	}
 	
-	public boolean validplay(){
-		return (songplayed<=3)&&(munites>0);
+	public boolean validplay(int song){
+		return dc.validplay(song, minutes);
 	}
 }

@@ -22,7 +22,7 @@ public class SongTest {
 		assertEquals(1, s.getplaytimes());
 		s.recordPlayed();
 		s.recordPlayed();
-		assertEquals(true, s.validplay());
+		assertEquals(false, s.validplay());
 		s.recordPlayed();
 		assertEquals(false, s.validplay());
 	}
@@ -41,7 +41,7 @@ public class SongTest {
 		assertEquals(1, s.getplaytimes());
 		s.recordPlayed();
 		s.recordPlayed();
-		assertEquals(true, s.validplay());
+		assertEquals(false, s.validplay());
 		s.recordPlayed();
 		assertEquals(false, s.validplay());
 	}
