@@ -62,7 +62,7 @@ public class Song {
 	}
 	
 	private Integer currentDay() {
-		// TODO Auto-generated method stub
+		
 		return LocalDate.now().getDayOfMonth();
 	}
 

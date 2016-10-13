@@ -18,12 +18,12 @@ public class StudentTest {
 		assertEquals(true,s.validpassword("Chris", "1"));
 		assertEquals(false,s.validpassword("sean", "233"));
 		assertEquals(true,s.validplay());
-		s.playasong(60);
-		s.playasong(60);
-		s.playasong(60);
-		s.playasong(60);
+		s.recordPlayed(60);
+		s.recordPlayed(60);
+		s.recordPlayed(60);;
+		s.recordPlayed(60);
 		assertEquals(false,s.validplay());
-		s.resettoday();
+		s.reset();
 		assertEquals(true,s.validplay());
 	}
 

@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Student {
@@ -7,7 +8,9 @@ public class Student {
 	private String password;
 	private int songplayed;
 	private int munites;
-
+	
+	private int currentDay;
+	private ArrayList<Integer> playLog = new ArrayList<Integer>();
 	public Student(String str, String pwd) {
 		name = str;
 		password = pwd;
@@ -27,18 +30,33 @@ public class Student {
 		return munites;
 	}
 	
-	public void playasong(int i){
-		songplayed++;
+	public void recordPlayed(int i) {
+		int day = LocalDate.now().getDayOfMonth();
+		playLog.add(day);
 		munites-=i;
 	}
 
-	
-	public int getplaytimes() {
-		return songplayed;
+	public int getplaytimes(){
+		int counter = 0;
+		for (int i = 0; i < playLog.size(); i++) {
+			if(playLog.get(i) == currentDay()){
+				counter++;
+			}
+		}
+		return counter;
+		
 	}
 	
-	public void resettoday(){
-		songplayed = 0;
+	private int currentDay() {
+		
+		return LocalDate.now().getDayOfMonth();
+	}
+
+	public void reset(){
+		
+	playLog=new ArrayList<Integer>();
+	
+	
 	}
 	
 	//Return true if the psw and user name matches
@@ -49,6 +67,6 @@ public class Student {
 	}
 	
 	public boolean validplay(){
-		return (songplayed<=3)&&(munites>0);
+		return (getplaytimes()<=2)&&(munites>0);
 	}
 }
