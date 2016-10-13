@@ -1,6 +1,7 @@
 package model;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+
 
 public class Song {
 	private String name;
@@ -9,33 +10,22 @@ public class Song {
 	private String File;
 	private int playtimes;
 	
-	private LocalDate today;
-	private LocalDate tomorrow;
-	private LocalDate time;
+	private int currentDay;
+
+	private ArrayList<Integer> playLog = new ArrayList<Integer>();
 	
-	public Song(String str, String singner, int length, String file) {
+	public Song(String str, String singer, int length, String file) {
 		playtimes=0;
 		name= str;
-		Artist = singner;
+		Artist = singer;
 		Length = length;
 		File = file;
-		setdates();
 		
 	}
 	
 	
 	
-	private void setdates() {
-		today=LocalDate.now();
-		time=today;
-		tomorrow=today;
-		tomorrow.plusDays(1);	
-	}
-
-
-
 	public String getTitle(){
-		
 		return name;
 	}
 	
@@ -43,37 +33,55 @@ public class Song {
 		return Artist;
 	}
 	
-	
+	public String getFile(){
+			return File;
+	}
+
+
+
 	public void recordPlayed() {
-		playtimes+=1;
-		if(playtimes==3){
-			time.plusDays(1);
-		}
+		int day = LocalDate.now().getDayOfMonth();
+		playLog.add(day);
 	}
 	
 	public int getSongLength(){
 		return Length;
 	}
-	
-	public int getplaytimes(){
-		return playtimes;
-	}
-	
-	public String getFile(){
-			return File;
-	}
-	
-	public boolean validplay(){
 
-		return (time.equals(today));
+
+
+	public int getplaytimes(){
+		int counter = 0;
+		for (int i = 0; i < playLog.size(); i++) {
+			if(playLog.get(i) == currentDay()){
+				counter++;
+			}
+		}
+		return counter;
+		
+	}
+	
+	private Integer currentDay() {
+		// TODO Auto-generated method stub
+		return LocalDate.now().getDayOfMonth();
+	}
+
+
+
+	public boolean validplay(){
+		if(getplaytimes()<=2){
+			return true;
+		}
+		return false;
+		
 	}
 	
 	public void reset(){
-		playtimes=0;
-		time=today;
+		if(playLog.size() > 12){
+			playLog.remove(0);
+			playLog.remove(1);
+			playLog.remove(2);
+		}
 	}
 	
-	public static void main(String[] args) {
-
-	}
 }

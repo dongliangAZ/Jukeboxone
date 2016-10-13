@@ -16,11 +16,15 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import model.Song;
+import model.SongLib;
+import model.SongQueue;
 import songplayer.EndOfSongEvent;
 import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
@@ -36,13 +40,16 @@ public class PlayASongWithEachButtonClick extends JFrame {
 	}
 
 	// The sound files must be in the project under folder /songfiles/
-	// vaseDir will be the absolute folder no matter where this project moves to.
-	public static String baseDir = System.getProperty("user.dir") + System.getProperty("file.separator") + "songfiles"
+	// vaseDir will be the absolute folder no matter where this project moves
+	// to.
+	public static String baseDir = System.getProperty("user.dir")
+			+ System.getProperty("file.separator") + "songfiles"
 			+ System.getProperty("file.separator");
 
 	private JButton button = new JButton("Play a song");
 
-	private JTextField textField = new JTextField("File names here, but can be edited to show GUI still works");
+	private JTextField textField = new JTextField(
+			"File names here, but can be edited to show GUI still works");
 
 	public PlayASongWithEachButtonClick() {
 		// lay out GUI
@@ -66,17 +73,22 @@ public class PlayASongWithEachButtonClick extends JFrame {
 	}
 
 	private int index;
-
-	ArrayList<String> audioFileNames = new ArrayList<String>();
+	private SongQueue que = new SongQueue();
+	private SongLib sl = new SongLib();
 
 	public void populateList() {
-		audioFileNames.add(baseDir + "tada.wav");
-		audioFileNames.add(baseDir + "spacemusic.au");
-		audioFileNames.add(baseDir + "flute.aif");
-		audioFileNames.add(baseDir + "BlueRidgeMountainMist.mp3");
-		audioFileNames.add(baseDir + "SwingCheese.mp3");
-		audioFileNames.add(baseDir + "DeterminedTumbao.mp3");
-		audioFileNames.add(baseDir + "UntameableFire.mp3");
+		Song s1 = new Song("Kevin MacLeod", "Danse Macabre", 34,
+				"songfiles/DanseMacabreViolinHook.mp3");
+		Song s2 = new Song("FreePlay Music", "Determined Tumbao", 20,
+				"songfiles/DeterminedTumbao.mp3");
+		Song s3 = new Song("FreePlay Music", "Determined Tumbao", 20,
+				"songfiles/spacemusic.au");
+		Song s4 = new Song("FreePlay Music", "Determined Tumbao", 20,
+				"songfiles/flute.aif");
+		sl.addsong(s1);
+		sl.addsong(s2);
+		sl.addsong(s3);
+		sl.addsong(s4);
 	}
 
 	private class ButtonListener implements ActionListener {
@@ -88,13 +100,20 @@ public class PlayASongWithEachButtonClick extends JFrame {
 		// passed back from the object that just finished playing that song.
 		public void actionPerformed(ActionEvent e) {
 			index++;
-			if (index >= audioFileNames.size())
+			if (index >= sl.Size())
 				index = 0;
-			String audioFileName = audioFileNames.get(index);
-			textField.setText(audioFileName);
+			Song song = sl.getSong(index);
+			textField.setText(song.getTitle());
+			que.addToPlaylist(song);
+			// Play yet another song, quite possibly while another is playing
+			if (!que.currentPlaying()) {
 
-	        // Play yet another song, quite possibly while another is playing
-			SongPlayer.playFile(new SongWaiter(), audioFileName);
+				que.playNext();
+
+			} else {
+				textField.setText("Setting " + song.getTitle() + " " + que.Size());
+			}
+
 		}
 	}
 
@@ -105,11 +124,13 @@ public class PlayASongWithEachButtonClick extends JFrame {
 	 * Note: this is a static class because it is being called from main, which
 	 * is a static context. If you are using a GUI, you won't need static
 	 */
+
 	private static class SongWaiter implements EndOfSongListener {
 
 		public void songFinishedPlaying(EndOfSongEvent eosEvent) {
-			System.out.println("Finished " + eosEvent.fileName() + ", " + eosEvent.finishedDate() + ", "
-					+ eosEvent.finishedTime());
+			System.out.println("Finished " + eosEvent.fileName() + ", "
+					+ eosEvent.finishedDate() + ", " + eosEvent.finishedTime());
+
 		}
 	}
 

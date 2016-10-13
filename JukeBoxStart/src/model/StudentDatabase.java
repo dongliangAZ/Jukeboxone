@@ -1,25 +1,30 @@
 package model;
 
 import java.util.*;
+
 import javax.swing.*;
 
 public class StudentDatabase {
-	private ArrayList<Student> List;
+	private TreeMap<String, Student> List;
 
 	public StudentDatabase() {
-		List = new ArrayList<Student>();
+		List = new TreeMap<String, Student>();
 
 	}
 
-	public boolean Studentexit(String str, String s) {
-		for(int i=0;i<List.size();i++)
-		if (List.get(i).getUsername().equals(str)&&List.get(i).getPassword().equals(s))
+	public void addStudent(String key, Student student) {
+		List.put(key, student);
+	}
+
+	public Student getStudent(String key) {
+		return List.get(key);
+	}
+
+	public boolean studentExists(String username, String passwd) {
+		String key = username+passwd;
+		if (List.containsKey(key))
 			return true;
 		return false;
-	}
-
-	public void addStudent(Student s) {
-		List.add(s);
 	}
 
 }
