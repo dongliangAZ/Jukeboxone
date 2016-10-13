@@ -3,6 +3,9 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Window;
 
 import javax.swing.*;
@@ -13,8 +16,11 @@ public class GUI extends JFrame{
 	private JButton songTwo;
 	private JTextField userID;
 	private JTextField passwd;
+	private JLabel songStatus;
+	private JLabel u;
+	private JLabel p;
 	public GUI(){
-		JP=new JPanel();
+		JP=new JPanel(new GridBagLayout());
 		
 		songOne = new JButton("Select song 1");
 		songTwo = new JButton("Select song 2");
@@ -35,21 +41,41 @@ public class GUI extends JFrame{
 		JP.setLocation(70, 150);
 		this.add(JP,BorderLayout.CENTER);
 		
-		userID = new JTextField();
-		userID.setEditable(true);
-		userID.setBackground(Color.white);
-		userID.setFont(new Font("Serif", Font.PLAIN, 15));
-		userID.setSize(150, 30); // width, height
-		userID.setLocation(250, 200);
-		add(userID);
 		
-		passwd = new JTextField();
-		passwd.setEditable(true);
+		
+		GridBagConstraints G = new GridBagConstraints();
+		G.insets = new Insets(5, 5, 5, 5);
+		
+		userID = new JTextField("",10);
+		u=new JLabel("Account Name");
+		userID.setBackground(Color.white);
+		//u.setFont(new Font("Serif", Font.PLAIN, 15));
+		userID.setSize(100, 30); // width, height
+		G.gridx = 150;
+		G.gridy = 100;
+		//userID.setLocation(150, 100);
+		JP.add(userID,G);
+		G.gridx = 100;
+		G.gridy = 100;
+		JP.add(u,G);
+		
+		passwd = new JTextField("",10);
+		p=new JLabel("Password");
 		passwd.setBackground(Color.white);
-		passwd.setFont(new Font("Serif", Font.PLAIN, 15));
-		passwd.setSize(150, 30); // width, height
-		passwd.setLocation(250, 250);
-		add(passwd);
+		//passwd.setFont(new Font("Serif", Font.PLAIN, 15));
+		passwd.setSize(100, 30); // width, height
+		G.gridx = 150;
+		G.gridy = 150;
+		//passwd.setLocation(250, 250);
+		JP.add(passwd,G);
+		G.gridx = 100;
+		G.gridy = 150;
+		JP.add(p,G);
+		
+		p=new JLabel("Status: 0 played, 25:00:00");
+		JP.add(p);
+		
+		
 		
 		
 	}
