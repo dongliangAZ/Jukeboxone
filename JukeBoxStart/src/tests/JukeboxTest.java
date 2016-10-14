@@ -9,7 +9,6 @@ import model.SongLib;
 import model.SongQueue;
 import model.Student;
 import model.StudentDatabase;
-import model.cardReader;
 
 import org.junit.Test;
 
@@ -21,7 +20,6 @@ public class JukeboxTest {
 		StudentDatabase sd = new StudentDatabase();
 		int index = 0;
 		Scanner keyboard = new Scanner(System.in);
-		cardReader cr = new cardReader();
 		SongLib sl = new SongLib();
 		SongQueue sq = new SongQueue();
 		Student a = new Student("Chris", "1");
@@ -30,10 +28,12 @@ public class JukeboxTest {
 		Student d = new Student("Ryan", "4444");
 		Student e = new Student("Sean", "233");
 		Student f = new Student("Ryan", "444");
-		sd.addStudent(a);
-		sd.addStudent(b);
-		sd.addStudent(c);
-		sd.addStudent(d);
+		sd.addStudent(a.getUsername() + a.getPassword(), a);
+		sd.addStudent(b.getUsername() + b.getPassword(), b);
+		sd.addStudent(c.getUsername() + c.getPassword(), c);
+		sd.addStudent(d.getUsername() + d.getPassword(), d);
+		sd.addStudent(e.getUsername() + e.getPassword(), e);
+		sd.addStudent(f.getUsername() + f.getPassword(), f);
 		Song s1 = new Song("FreePlay Music", "Determined Tumbao", 20,
 				"songfiles/spacemusic.au");
 		Song s2 = new Song("FreePlay Music", "Determined Tumbao", 20,
@@ -43,47 +43,29 @@ public class JukeboxTest {
 
 		/* ___________________________Set_UP_DATABASE_END__________________________________ */
 
-		do {
-			System.out.print("Please Type Kill to Kill program:");
-			
+		while (keyboard.next().equals("quitProgram")) {
+			Student currentUser = a;
 
 			/* ______________________________Login_Attempt_Start__________________________________ */
-			System.out.println("Username:");
-			String user = keyboard.next();
-			System.out.println("Passwd:");
-			String passwd = keyboard.next();
-			Student currentUser = cr.login(user, passwd, sd);
-			
-			
 			/* ______________________________Login_Attempt_End____________________________________ */
 
 			/* ___________________________Playing_Songs________________________________ */
 			String exit = "";
-			Song song = null;
-			while (keyboard.hasNext() && !exit.equals("Kill")) {
-				index++;
-				if (index >= sl.Size()) {
-					index = 0;
-				}
-				song = sl.getSong(index);
-
+			while (keyboard.hasNext() && !keyboard.nextLine().equals("logout")) {
+				String userRequest = keyboard.next();
+				System.out.println("Choose 1 or 2");
+				Song song = sl.getSong(Integer.parseInt(userRequest));
+				System.out.println(song.getTitle());
 				if (sq.addToPlaylist(song)) {
-					System.out.println(song.getTitle());
-					// Play yet another song, quite possibly while another is
-					// playing
+					//userCurrent
 					if (!sq.currentPlaying()) {
-
 						sq.playNext();
-
 					} else {
-						System.out.println("Setting " + song.getTitle() + " "
-								+ sq.Size());
+						System.out.println("Adding " + userRequest
+								+ " to queue." + sq.Size() + " songs in queue");
 					}
-				} else {
-					System.out.println("Song has reached its day limit");
 				}
-				exit = keyboard.nextLine();
 			}
-		} while (!keyboard.next().equals("quitProgram"));
+		}
 	}
 }

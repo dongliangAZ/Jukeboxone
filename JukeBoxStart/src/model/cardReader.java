@@ -2,23 +2,23 @@ package model;
 
 public class cardReader {
 	Student student;
-
-	public Student login(String username, String passwd, StudentDatabase sdb) {
+	public boolean login(String username, String passwd, StudentDatabase sdb) {
 		if (sdb.studentExists(username, passwd)) {
-			Student student = sdb.getStudent(username + passwd);
-			return student;
-		} else {
-			return null;
+			student = sdb.getStudent(username+passwd);
+			 if(student != null){
+				 return true;
+			 }
 		}
+		return false;
 
 	}
-
-	public void logout() {
+	
+	public void logout(){
 		student = null;
 	}
-
-	public boolean loginQuery() {
-		if (student != null) {
+	
+	public boolean loginQuery(){
+		if(student != null){
 			return true;
 		} else {
 			return false;
